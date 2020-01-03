@@ -24,9 +24,9 @@ func main() {
 
 	var bs []byte
 	bs, _ = json.Marshal(map[string]interface{}{"type": "voestalpine:hbd:1", "name": "HBD 1"})
-	c.Publish("sensor/hbd-1/info", bs)
+	c.Publish("sensor/1.1/info", bs)
 	bs, _ = json.Marshal(map[string]interface{}{"type": "voestalpine:hbd:1", "name": "HBD 2"})
-	c.Publish("sensor/hbd-2/info", bs)
+	c.Publish("sensor/1.2/info", bs)
 	for {
 		select {
 		case s := <-signals:
@@ -37,9 +37,9 @@ func main() {
 			}
 		case <-time.After(time.Second * 2):
 			bs, _ = json.Marshal(float64(rand.Intn(150) + 20))
-			c.Publish("sensor/hbd-1/temperature", bs)
+			c.Publish("sensor/1.1/temperature", bs)
 			bs, _ = json.Marshal(float64(rand.Intn(150) + 20))
-			c.Publish("sensor/hbd-2/temperature", bs)
+			c.Publish("sensor/1.2/temperature", bs)
 		}
 	}
 }
