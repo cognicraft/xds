@@ -1,0 +1,8 @@
+github.com/cognicraft/mqtt v0.0.0-20200103132749-1f9babe452f5 h1:18q30lCeY1gSJ9KxfhP07/rt6mA+Xzo+GcL21erejds=
+github.com/cognicraft/mqtt v0.0.0-20200103132749-1f9babe452f5/go.mod h1:VqYieEspcgV520x5a+xove8EkOvcUF5mItk+GGI7nhc=
+github.com/cognicraft/mqtt v0.0.0-20200103175248-38f80eb924e6 h1:BuGCpD8fMiiiJllYKyQHVdTf/awe6uAZtO9jm7FXhXQ=
+github.com/cognicraft/mqtt v0.0.0-20200103175248-38f80eb924e6/go.mod h1:VqYieEspcgV520x5a+xove8EkOvcUF5mItk+GGI7nhc=
+github.com/cognicraft/mqtt v0.0.0-20200103190202-1cd467cef952 h1:ParkVfXnpTJQZAHKOfIqE3dZR69b/gDq9hxnim+m9lM=
+github.com/cognicraft/mqtt v0.0.0-20200103190202-1cd467cef952/go.mod h1:VqYieEspcgV520x5a+xove8EkOvcUF5mItk+GGI7nhc=
+github.com/cognicraft/mqtt v0.0.0-20200103193241-59aa223337cb h1:M2Yx3DIzEB3ZAQTPpoG7JcgmM8OWgo6+dRrpHi8tKpI=
+github.com/cognicraft/mqtt v0.0.0-20200103193241-59aa223337cb/go.mod h1:VqYieEspcgV520x5a+xove8EkOvcUF5mItk+GGI7nhc=
