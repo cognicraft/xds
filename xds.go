@@ -29,9 +29,8 @@ func New(queueBind string) *XDS {
 type XDS struct {
 	queue      *mqtt.Queue
 	connection mqtt.Connection
-
-	direction Direction
-	sensors   map[string]config
+	direction  Direction
+	sensors    map[string]config
 }
 
 func (s *XDS) Run() error {
@@ -42,29 +41,23 @@ func (s *XDS) Run() error {
 	defer c.Close()
 
 	s.connection = c
-	c.Subscribe("#", 0)
-	c.OnMessage(s.onMessage)
-
+	c.Subscribe("sensor/+/manifest", 0, mqtt.HandlerFunc(s.handleSensorManifest))
+	c.Subscribe("sensor/+/temperature", 0, mqtt.HandlerFunc(s.handleSensorTemperature))
 	go s.simulate()
 
 	return s.queue.ListenAndServe()
 }
 
-func (s *XDS) onMessage(topic string, data []byte) {
+func (s *XDS) handleSensorManifest(c mqtt.Connection, m mqtt.Message) {
 	ts := time.Now().UTC().Format(time.RFC3339)
-	t := mqtt.Topic(topic)
-	switch {
-	case mqtt.Topic("sensor/+/info").Accept(t):
-		sID := t.Parts()[1]
-		fmt.Printf("%s sensor=%s, info=%s\n", ts, sID, string(data))
-	case mqtt.Topic("sensor/+/temperature").Accept(t):
-		sID := t.Parts()[1]
-		if pos, ok := s.sensorPosition(sID); ok {
-			fmt.Printf("%s position=%s, temperature=%s\n", ts, pos, string(data))
-		}
-	default:
-		fmt.Printf("%s %s %s\n", ts, topic, string(data))
-	}
+	sID := m.Topic.Parts()[1]
+	fmt.Printf("%s sensor=%s, manifest=%s\n", ts, sID, string(m.Payload))
+}
+
+func (s *XDS) handleSensorTemperature(c mqtt.Connection, m mqtt.Message) {
+	ts := time.Now().UTC().Format(time.RFC3339)
+	sID := m.Topic.Parts()[1]
+	fmt.Printf("%s sensor=%s, temperature=%s\n", ts, sID, string(m.Payload))
 }
 
 func (s *XDS) sensorPosition(sID string) (string, bool) {
