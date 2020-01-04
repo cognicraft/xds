@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/cognicraft/mqtt"
+	"github.com/cognicraft/xds"
 )
 
 func main() {
@@ -17,14 +18,25 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	c.OnClose(func(c mqtt.Connection) {
+		os.Exit(0)
+	})
 	time.Sleep(time.Millisecond)
 	signals := make(chan os.Signal, 1)
 	signal.Notify(signals, os.Interrupt)
 
 	var bs []byte
-	bs, _ = json.Marshal(map[string]interface{}{"type": "voestalpine:hbd:1", "name": "HBD 1"})
+	bs, _ = json.Marshal(xds.Manifest{
+		ID:   "1.1",
+		Type: "voestalpine:hbd:1",
+		Name: "HBD 1",
+	})
 	c.Publish("sensor/1.1/manifest", bs)
-	bs, _ = json.Marshal(map[string]interface{}{"type": "voestalpine:hbd:1", "name": "HBD 2"})
+	bs, _ = json.Marshal(xds.Manifest{
+		ID:   "1.2",
+		Type: "voestalpine:hbd:1",
+		Name: "HBD 2",
+	})
 	c.Publish("sensor/1.2/manifest", bs)
 	for {
 		select {
